@@ -1,0 +1,113 @@
+<Page x:Class="VirtualPlantCareAssistantVSC.Views.CareScheduleView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Title="CareScheduleView" Loaded="Page_Loaded">
+
+    <Grid Background="#F4F7F6">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <Border Grid.Column="0" Background="White" materialDesign:ElevationAssist.Elevation="Dp2">
+            <StackPanel Margin="0,20,0,0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,40">
+                    <materialDesign:PackIcon Kind="Leaf" Foreground="#2E7D32" Width="30" Height="30" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="Plant Care" Foreground="#1B5E20" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                </StackPanel>
+                <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="#555" HorizontalContentAlignment="Left" Height="50" Margin="10,5" Click="DashboardButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="ViewDashboard" Width="22" Height="22" Margin="0,0,14,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Dashboard" FontSize="15" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="#2E7D32" HorizontalContentAlignment="Left" Height="50" Margin="10,5">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="CalendarCheckOutline" Width="22" Height="22" Margin="0,0,14,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Care Schedule" FontSize="15" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="#555" HorizontalContentAlignment="Left" Height="50" Margin="10,5" Click="RemindersButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="BellRingOutline" Width="22" Height="22" Margin="0,0,14,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Reminders" FontSize="15" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="#555" HorizontalContentAlignment="Left" Height="50" Margin="10,5" Click="CareHistoryButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="History" Width="22" Height="22" Margin="0,0,14,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Care History" FontSize="15" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Border>
+
+        <!-- Main Content -->
+        <Grid Grid.Column="1" Margin="28">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+                <materialDesign:PackIcon Kind="CalendarCheckOutline" Foreground="#2E7D32" Width="30" Height="30" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Care Schedule" FontSize="28" FontWeight="Bold" Foreground="#1B5E20"/>
+                    <TextBlock Text="Upcoming watering &amp; fertilization tasks (next 14 days + overdue)" FontSize="13" Foreground="#777"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Schedule List -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <ItemsControl x:Name="ScheduleItemsControl">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="White" CornerRadius="12" Margin="0,0,0,12"
+                                        materialDesign:ElevationAssist.Elevation="Dp2">
+                                    <Grid Margin="16,14">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Care type icon -->
+                                        <Border Grid.Column="0" Width="48" Height="48" CornerRadius="24"
+                                                Background="{Binding CareColor}" Margin="0,0,16,0">
+                                            <TextBlock Text="{Binding CareIcon}" FontSize="22"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+
+                                        <!-- Plant info -->
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding PlantName}" FontSize="16" FontWeight="Bold" Foreground="#333"/>
+                                            <TextBlock Text="{Binding CareType}" FontSize="13" Foreground="#777" Margin="0,2,0,0"/>
+                                            <TextBlock Text="{Binding FormattedDueDate}" FontSize="12" Foreground="#999" Margin="0,2,0,0"/>
+                                        </StackPanel>
+
+                                        <!-- Status badge -->
+                                        <Border Grid.Column="2" CornerRadius="10" Padding="12,5"
+                                                Background="{Binding StatusColor}" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding StatusText}" FontSize="13"
+                                                       Foreground="White" FontWeight="SemiBold"/>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <TextBlock x:Name="NoScheduleText"
+                               Text="🌿 No upcoming care tasks in the next 14 days. All plants are on track!"
+                               Foreground="#AAA" FontSize="15" HorizontalAlignment="Center"
+                               Margin="0,60,0,0" TextWrapping="Wrap" TextAlignment="Center"
+                               Visibility="Collapsed"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Page>
